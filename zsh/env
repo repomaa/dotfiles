@@ -1,0 +1,16 @@
+#!/usr/bin/sh
+
+[[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME="$HOME/.config"
+[[ -z $XDG_CACHE_HOME ]] && export XDG_CACHE_HOME="$HOME/.cache"
+[[ -z $XDG_DATA_HOME ]] && export XDG_DATA_HOME="$HOME/.local/share"
+export PATH="$HOME/bin:$HOME/.ruby-bin"
+export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
+export VIMDOTDIR="$XDG_CONFIG_HOME/vim"
+export BUILDDIR="$HOME/.cache/aur-packages"
+export MAKEFLAGS="$MAKEFLAGS -j5"
+export PASSWORD_STORE_DIR="$HOME/Sync/Koti/password-store"
+export EDITOR=vim
+export BROWSER=firefox
+export CC=gcc
+BASE16_SHELL="$HOME/.config/base16-shell/base16-default.dark.sh"
+[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL

@@ -1,0 +1,134 @@
+#!/usr/bin/zsh
+
+dmenu () {
+  command dmenu -fn $THEME_FONT -nf $THEME_FG -nb $THEME_BG -sf $THEME_BLUE -sb $THEME_SEL_DARK "$@"
+}
+
+lspath () {
+  (($#)) || set ''
+  local names; names=($^path/*$^@*(N:t))
+  print -lr -- ${(ou)names}
+}
+
+hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
+
+setscreen () {
+  "$HOME/.screenlayout/$@.sh"
+  hc reload
+}
+
+screenlayouts () {
+  ls $HOME/.screenlayout | sed 's/\.sh$//'
+}
+
+resource () {
+  source "$HOME/.zshrc"
+}
+
+wget () {
+  command wget --content-disposition "$@"
+}
+
+rbt () {
+  sudo kexec -l /boot/vmlinuz-linux --initrd=/boot/initramfs-linux.img \
+    --reuse-cmdline && sudo systemctl kexec
+}
+
+scratch () {
+  vim -c ":set ft=$1" -c ':ScreenShellVertical' $(mktemp)
+}
+
+wake-htpc () {
+  ssh admin@koti.jreinert.com /opt/home/admin/scripts/wake-htpc
+}
+
+udmount () {
+  udisksctl mount -b "$@"
+}
+
+be () {
+  bundle exec "$@"
+}
+
+meteor-deploy () {
+  local name
+  if [[ "$@" == "" ]]; then
+    name=$(basename $(pwd))
+  else
+    name="$@"
+  fi
+  meteor build --directory "/tmp/$name" || exit $?
+  local deploy_dir="/usr/share/webapps/$name"
+  echo -n "Deploying to $deploy_dir in 3.."
+  sleep 1 && echo -n " 2.." && sleep 1 && echo " 1.." && sleep 1 || exit 1
+  rsync --delete -raP --chown http:http --protect-args \
+    "/tmp/$name/" "root@server:$deploy_dir/" && \
+  ssh root@server "cd \"$deploy_dir/bundle/programs/server\" && sudo -u http npm install --python=python2 && systemctl restart $name" && \
+  rm -rf "/tmp/$name"
+}
+
+ncmpcpp () {
+  command ncmpcpp --config $XDG_CONFIG_HOME/ncmpcpp/config "$@"
+}
+
+udumount () {
+  local realpath=$(readlink -e "$@")
+  local blockdevice=$(mount | grep "$realpath" | awk '{print $1}')
+  udisksctl unmount -b "$blockdevice"
+}
+
+alot () {
+	command alot $@ && notmuch tag -unseen -- tag:unseen
+}
+
+kill_and_wait() {
+	local try=0
+	while pid=$(pidof $1) && [ $try -lt 10 ]; do
+		kill $pid
+		try+=1
+	done
+	if [[ ! -z "$pid" ]]; then
+		kill -9 $pid
+	fi
+}
+
+be() {
+	local dir=$(/usr/bin/pwd)
+	local is_bundle=false
+	while [ "$dir" != '/' ] && ! $is_bundle; do
+		if [ -f "$dir/Gemfile" ]; then
+			is_bundle=true
+		else
+			dir=$(dirname $dir)
+		fi
+	done
+	local cmd=$1
+	shift
+	if $is_bundle; then
+		echo "Found Gemfile, starting with bundle exec"
+		bundle exec $cmd $@
+	else
+		command $cmd
+	fi
+}
+
+be_commands=('rails' 'cap' 'rake' 'rackup' 'puma' 'thin' 'unicorn' 'pry')
+
+for cmd in "${be_commands[@]}"; do
+	$cmd() {
+		be $0 $@
+	}
+done
+
+term() {
+	hc spawn termite -d $PWD
+}
+
+tmux() {
+	command tmux -f ~/.config/tmux/tmux.conf "$@"
+}
+
+cdmk () {
+	mkdir -p $1
+	cd $1
+}
