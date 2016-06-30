@@ -12,6 +12,8 @@ ZSH_THEME="gnzh"
 # Uncomment the following line to disable bi-weekly auto-update checks.
 DISABLE_AUTO_UPDATE="true"
 
+DISABLE_AUTO_TITLE="true"
+
 # Uncomment the following line to enable command auto-correction.
 ENABLE_CORRECTION="true"
 
@@ -32,8 +34,9 @@ plugins=(git tmuxinator)
 source $ZSH/oh-my-zsh.sh
 
 source "$BASEDIR/functions"
-source "$BASEDIR/zprofile"
 source "$BASEDIR/env"
+
+eval "$(rbenv init -)"
 
 # vi mode
 bindkey -v
@@ -47,11 +50,16 @@ bindkey '^q' push-line
 
 export KEYTIMEOUT=1
 
-source <(envoy -p)
+eval "$(fasd --init posix-alias zsh-hook zsh-ccomp zsh-ccomp-install zsh-wcomp zsh-wcomp-install)"
+alias v='f -e vim'
+alias m='f -e mpv'
+alias o='a -e xdg-open'
+alias j='fasd_cd -d'
 
 _GREP_OPTIONS=$GREP_OPTIONS
 alias grep="grep $_GREP_OPTIONS"
 unset GREP_OPTIONS
 
 #task calendar
-#task
+#khal agenda
+#task rc.context=none next

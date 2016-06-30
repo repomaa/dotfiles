@@ -3,7 +3,7 @@
 [[ -z $XDG_CONFIG_HOME ]] && export XDG_CONFIG_HOME="$HOME/.config"
 [[ -z $XDG_CACHE_HOME ]] && export XDG_CACHE_HOME="$HOME/.cache"
 [[ -z $XDG_DATA_HOME ]] && export XDG_DATA_HOME="$HOME/.local/share"
-export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.anyenv/bin:$PATH"
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 export VIMDOTDIR="$XDG_CONFIG_HOME/vim"
 export BUILDDIR="$XDG_CACHE_HOME/aur-packages"
@@ -12,6 +12,8 @@ export PASSWORD_STORE_DIR="$HOME/Sync/Koti/password-store"
 export EDITOR=vim
 export BROWSER=firefox
 export CC=gcc
-export BASE16_SHELL="$XDG_CONFIG_HOME/base16-shell/base16-default.dark.sh"
+[[ -z $BASE16_SHELL ]] && export BASE16_SHELL="$XDG_CONFIG_HOME/base16-shell/base16-default.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 export LS_COLORS="di=1;34;40:ln=35;40:so=32;40:pi=33;40:ex=31;40:bd=31;40:cd=31;40:su=31;40:sg=31;40:tw=31;40:ow=31;40:"
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gnupg/S.gpg-agent.ssh"
+eval "$(anyenv init -)"

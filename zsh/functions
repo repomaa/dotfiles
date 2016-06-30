@@ -14,7 +14,8 @@ hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
 
 setscreen () {
   "$HOME/.screenlayout/$@.sh"
-  hc reload
+  systemctl --user reload wm
+  systemctl --user restart conky trayer
 }
 
 screenlayouts () {
@@ -46,10 +47,6 @@ udmount () {
   udisksctl mount -b "$@"
 }
 
-be () {
-  bundle exec "$@"
-}
-
 meteor-deploy () {
   local name
   if [[ "$@" == "" ]]; then
@@ -68,6 +65,7 @@ meteor-deploy () {
 }
 
 ncmpcpp () {
+  systemctl --user start mpdas
   command ncmpcpp --config $XDG_CONFIG_HOME/ncmpcpp/config "$@"
 }
 
@@ -112,7 +110,7 @@ be() {
 	fi
 }
 
-be_commands=('rails' 'cap' 'rake' 'rackup' 'puma' 'thin' 'unicorn' 'pry')
+be_commands=('rails' 'cap' 'rake' 'rackup' 'puma' 'thin' 'unicorn' 'pry', 'rspec', 'guard')
 
 for cmd in "${be_commands[@]}"; do
 	$cmd() {
@@ -132,3 +130,58 @@ cdmk () {
 	mkdir -p $1
 	cd $1
 }
+
+chat () {
+	ssh -t server "TERM=xterm-termite /usr/bin/bash -l -c 'tmux a -t weechat'"
+}
+
+b16() {
+	BASE16_SHELL="$XDG_CONFIG_HOME/base16-shell/$@"
+	[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+}
+compdef '_files -W "$XDG_CONFIG_HOME/base16-shell/" -g "*.sh"' b16
+
+p() {
+	local pres_theme="$XDG_CONFIG_HOME/base16-shell/base16-bright.light.sh"
+	local default_theme="$XDG_CONFIG_HOME/base16-shell/base16-default.dark.sh"
+
+	if [[ "$BASE16_SHELL" = "$default_theme" ]]; then
+		BASE16_SHELL="$pres_theme"
+		ln -sf "$XDG_CONFIG_HOME/termite/"{presi,config}
+	else
+		BASE16_SHELL="$default_theme"
+		ln -sf "$XDG_CONFIG_HOME/termite/"{default,config}
+	fi
+
+	source "$BASE16_SHELL"
+	kill -SIGUSR1 $(xdotool getactivewindow getwindowpid)
+}
+
+zdf() {
+	mpv $(curl -s 'http://zdf1314-lh.akamaihd.net/i/de14_v1@392878/master.m3u8?dw=0' | grep index_3056 | head -1)
+}
+
+djvuedit() {
+	local file="$1"
+	local tempfile=$(mktemp /tmp/djvuedit.XXXX)
+	djvused -u -e print-meta "$file" | vipe > "$tempfile"
+	djvused -u -s -e "set-meta \"$tempfile\"" "$file"
+	rm "$tempfile"
+}
+
+filer() {
+	vim +"VimFiler $@"
+}
+
+down() {
+	echo 'Insert torrent links:'
+	while read link; do
+		transmission-remote -a "$link"
+	done
+}
+
+mux() {
+	tmuxinator "$@"
+}
+
+compdef _tmuxinator mux
