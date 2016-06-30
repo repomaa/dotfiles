@@ -1,0 +1,7 @@
+snippet     pass
+abbr        pass password entry
+options     head
+    ${1:`substitute(system('apg -m 30 -n 1 -M SCNL'), '\n', '', '')`}
+    ---
+    user: ${2:username}
+    window: ${3:`substitute(expand('%:t:r'), '.*-', '', '')`}${0}

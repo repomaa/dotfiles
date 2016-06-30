@@ -1,0 +1,253 @@
+[[plugins]]
+repository = 'Shougo/neobundle.vim'
+fetch = 1
+
+[[plugins]]
+repository = 'Shougo/vimproc.vim'
+	[plugins.build]
+	linux = 'make'
+
+[[plugins]]
+repository = 'Shougo/unite.vim'
+lazy = 0
+	[plugins.on_cmd]
+	name = 'Unite'
+	complete = 'customlist,unite#complete_source'
+
+[[plugins]]
+repository = 'Shougo/neomru.vim'
+lazy = 1
+on_source = 'unite.vim'
+
+[[plugins]]
+repository = 'Shougo/vimshell.vim'
+lazy = 1
+on_map = '<Plug>'
+	[plugins.on_cmd]
+	name = 'VimShell'
+	complete = 'customlist,vimshell#complete'
+
+[[plugins]]
+repository = 'Shougo/vimfiler.vim'
+lazy = 0
+on_map = '<Plug>'
+	[plugins.on_cmd]
+	name = 'VimFiler'
+	complete = 'customlist,vimfiler#complete'
+
+
+[[plugins]]
+repository = 'Shougo/neosnippet.vim'
+lazy = 1
+on_i = 1
+on_cmd = [
+	'NeoSnippetEdit',
+	'NeoSnippetClearMarkers',
+	'NeoSnippetMakeCache',
+	'NeoSnippetSource'
+]
+
+[[plugins]]
+repository = 'Shougo/neosnippet-snippets'
+lazy = 1
+on_source = 'neosnippet.vim'
+
+[[plugins]]
+repository = 'chriskempson/base16-vim'
+
+[[plugins]]
+repository = 'cespare/vim-toml'
+lazy = 1
+on_ft = 'toml'
+
+[[plugins]]
+repository = 'ledger/vim-ledger'
+lazy = 1
+on_ft = 'ledger'
+
+[[plugins]]
+repository = 'tpope/vim-fugitive'
+lazy = 0
+augroup = 'fugitive'
+on_cmd = [
+	'Gstatus',
+	'Gdiff',
+	'Gwrite',
+	'Gread',
+	'Gsplit',
+	'Gvsplit',
+	'Gtabedit',
+	'Gcommit',
+	'Gblame',
+	'Gmove',
+	'Gremove',
+	'Ggrep',
+	'Glog',
+	'Gbrowse',
+	'Git',
+	'Git!',
+]
+
+[[plugins]]
+repository = 'godlygeek/tabular'
+lazy = 1
+on_cmd = 'Tabularize'
+
+[[plugins]]
+repository = 'majutsushi/tagbar'
+lazy = 1
+augroup = 'TagbarSession'
+on_cmd = [
+	'Tagbar',
+	'TagbarToggle',
+	'TagbarOpen',
+	'TagbarOpenAutoClose',
+]
+
+[[plugins]]
+repository = 'scrooloose/syntastic'
+lazy = 0
+augroup = 'syntastic'
+on_cmd = [
+	'write',
+	'SyntasticCheck',
+	'SyntasticInfo',
+	'SyntasticToogleMode'
+]
+
+[[plugins]]
+repository = 'Rip-Rip/clang_complete.git'
+lazy = 1
+on_ft = [
+	'c',
+	'cpp'
+]
+
+[[plugins]]
+repository = 'scrooloose/nerdcommenter'
+lazy = 1
+on_map = '<Plug>'
+
+[[plugins]]
+repository = 'ciaranm/securemodelines'
+
+[[plugins]]
+repository = 'kchmck/vim-coffee-script'
+lazy = 1
+on_path = '\.coffee$'
+
+[[plugins]]
+repository = 'lervag/vimtex'
+lazy = 1
+on_ft = 'tex'
+
+[[plugins]]
+repository = 'rhysd/vim-crystal'
+lazy = 1
+on_path = '\.cr$'
+on_ft = 'crystal'
+
+[[plugins]]
+repository = 'mxw/vim-jsx'
+lazy = 1
+on_ft = 'javascript'
+
+[[plugins]]
+repository = 'tpope/vim-abolish'
+lazy = 1
+on_i = 1
+
+[[plugins]]
+repository = 'tpope/vim-bundler'
+lazy = 1
+on_ft = 'ruby'
+
+[[plugins]]
+repository = 'tpope/vim-rails'
+lazy = 1
+on_ft = [
+	'ruby',
+	'haml',
+	'erb'
+]
+
+[[plugins]]
+repository = 'editorconfig/editorconfig-vim'
+
+[[plugins]]
+repository = 'aklt/vim-substitute'
+lazy = 1
+on_map = ';;'
+
+[[plugins]]
+repository = 'AndrewRadev/splitjoin.vim'
+lazy = 1
+on_map = [
+	'gS',
+	'gJ'
+]
+
+[[plugins]]
+repository = 'Shougo/neocomplete.vim'
+lazy = 1
+on_i = 1
+
+[[plugins]]
+repository = 'jimf/javascriptcomplete'
+lazy = 1
+on_ft = 'javascript'
+
+[[plugins]]
+repository = 'kmnk/vim-unite-giti'
+lazy = 1
+on_source = 'unite.vim'
+
+[[plugins]]
+repository = 'reedes/vim-lexical'
+lazy = 1
+augroup = 'lexical'
+on_ft = ['tex', 'markdown', 'text', 'mail', 'text']
+
+[[plugins]]
+repository = 'vim-scripts/LanguageTool'
+lazy = 1
+on_cmd = 'LanguageToolCheck'
+
+[[plugins]]
+repository = 'tpope/vim-endwise'
+lazy = 1
+on_ft = [
+	'ruby',
+	'vim',
+	'bash'
+]
+
+[[plugins]]
+repository = 'chrisbra/NrrwRgn'
+lazy = 0
+
+[[plugins]]
+repository = 'vim-scripts/FastFold'
+lazy = 1 
+on_i = 1
+
+[[plugins]]
+repository = 'tpope/vim-surround'
+lazy = 1
+on_map = [
+	'cs',
+	'ds',
+	['v', 'S']
+]
+
+[[plugins]]
+repository = 'jreinert/rbnew'
+lazy = 1
+	[plugins.on_cmd]
+	name = 'Rbnew'
+
+[[plugins]]
+repository = 'romgrk/vimfiler-prompt'
+lazy = 1
+	[plugins.on_cmd]
+	name = 'VimFilerPrompt'
