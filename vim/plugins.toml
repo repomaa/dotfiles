@@ -232,13 +232,14 @@ lazy = 1
 on_i = 1
 
 [[plugins]]
-repository = 'tpope/vim-surround'
+repository = 'kana/vim-operator-user'
 lazy = 1
-on_map = [
-	'cs',
-	'ds',
-	['v', 'S']
-]
+on_source = 'vim-operator-surround'
+
+[[plugins]]
+repository = 'rhysd/vim-operator-surround'
+lazy = 1
+on_map = '<Plug>'
 
 [[plugins]]
 repository = 'jreinert/rbnew'
@@ -251,3 +252,42 @@ repository = 'romgrk/vimfiler-prompt'
 lazy = 1
 	[plugins.on_cmd]
 	name = 'VimFilerPrompt'
+
+[[plugins]]
+repository = 'kshenoy/vim-signature'
+
+[[plugins]]
+repository = 'chiedo/vim-case-convert'
+lazy = 1
+on_cmd = [
+	'CamelToHyphen',
+	'CamelToSnake',
+	'HyphenToCamel',
+	'HyphenToSnake',
+	'SnakeToCamel',
+	'SnakeToHyphen',
+	'CamelToHyphenAll',
+	'CamelToSnakeAll',
+	'HyphenToCamelAll',
+	'HyphenToSnakeAll',
+	'SnakeToCamelAll',
+	'SnakeToHyphenAll',
+	'CamelToHyphenAll!',
+	'CamelToSnakeAll!',
+	'HyphenToCamelAll!',
+	'HyphenToSnakeAll!',
+	'SnakeToCamelAll!',
+	'SnakeToHyphenAll!',
+]
+
+[[plugins]]
+repository = 'vim-scripts/draw.vim'
+lazy = 1
+on_map = [
+	'<Leader>d'
+]
+
+[[plugins]]
+repository = 'sirtaj/vim-openscad'
+lazy = 1
+on_ft = 'openscad'

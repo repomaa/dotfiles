@@ -18,13 +18,15 @@ set regexpengine=1
 set ttyfast
 
 set ts=4 sts=0 sw=4 noet
-au FileType ruby,yaml,crystal setlocal sw=2 ts=2 sts=2 et
-au FileType ledger,vhdl setlocal sw=4 ts=4 sts=4 et
 au BufNewFile,BufRead *.tex setlocal ft=tex spell
 au BufNewFile,BufRead *.tixz setlocal ft=tex
 au BufNewFile,BufRead /dev/shm/pass.* setlocal noswapfile nobackup noundofile ft=yaml
+au BufNewFile,BufRead *.rake,*.rb.example setlocal ft=ruby
+au BufNewFile,BufRead *.scad setlocal ft=openscad
 au FileType markdown setlocal sw=4 ts=4 sts=4 et tw=80
+au FileType ruby,yaml,crystal setlocal sw=2 ts=2 sts=2 et
 au FileType ruby setlocal makeprg=bundle\ exec\ rspec\ --require\ ~/.config/vim/plugrc/rspec-vim/quickfix_formatter.rb\ --format\ QuickfixFormatter
+au FileType ledger,vhdl,sh setlocal sw=4 ts=4 sts=4 et
 
 set complete+=kspell
 

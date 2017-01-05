@@ -110,7 +110,10 @@ be() {
 	fi
 }
 
-be_commands=('rails' 'cap' 'rake' 'rackup' 'puma' 'thin' 'unicorn' 'pry', 'rspec', 'guard')
+be_commands=(
+	rails cap rake rackup puma thin unicorn pry rspec guard rubocop yard shotgun
+	ruby-prof
+)
 
 for cmd in "${be_commands[@]}"; do
 	$cmd() {
@@ -132,7 +135,7 @@ cdmk () {
 }
 
 chat () {
-	ssh -t server "TERM=xterm-termite /usr/bin/bash -l -c 'tmux a -t weechat'"
+	mosh -p 60000 -- server tmux a -t weechat
 }
 
 b16() {
@@ -182,6 +185,24 @@ down() {
 
 mux() {
 	tmuxinator "$@"
+}
+
+tsessions() {
+	tmux list-sessions -F '#{session_name} #{?session_attached,,not_attached}' | \
+		awk '/not_attached/{print $1}'
+}
+
+tkill() {
+	tsessions | fzf | xargs tmux kill-session -t
+}
+
+tswitch() {
+	tsessions | fzf | xargs tmux switch-client -t
+}
+
+tnew() {
+	tmux new -d -s "$@"
+	tmux switch-client -t $1
 }
 
 compdef _tmuxinator mux

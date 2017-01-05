@@ -75,6 +75,7 @@ if neobundle#tap('syntastic')
 	let g:syntastic_error_symbol   = '✗'
 	let g:syntastic_warning_symbol = '!'
 	let g:syntastic_ruby_checkers = ["rubocop", "mri"]
+	let g:syntastic_ruby_rubocop_exe = "bundle exec rubocop"
 	let g:syntastic_haml_checkers = ["haml_lint", "haml"]
 	let g:syntastic_c_checkers = ["oclint", "gcc"]
 	let g:syntastic_javascript_checkers = ['eslint']
@@ -202,6 +203,10 @@ if neobundle#tap('vimfiler-prompt')
 	call neobundle#untap()
 endif
 
+" vim-operator-surround
+map <silent>sa <Plug>(operator-surround-append)
+map <silent>sd <Plug>(operator-surround-delete)
+map <silent>sc <Plug>(operator-surround-replace)
 
 call neobundle#end()
 
