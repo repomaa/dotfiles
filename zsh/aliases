@@ -1,0 +1,4 @@
+alias prettyjson="ruby -r json -e 'puts JSON.pretty_generate(JSON.parse(STDIN.read))' | vim '+setlocal ft=json foldmethod=syntax foldlevel=2' -"
+alias hc=herbstclient
+alias gist="gist -c"
+alias chat="ssh -t server env LANG=en_US.utf8 TERM=xterm-256color tmux a -t weechat"

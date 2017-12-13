@@ -1,5 +1,9 @@
 #!/usr/bin/zsh
 
+_() {
+	sudo "$@"
+}
+
 dmenu () {
   command dmenu -fn $THEME_FONT -nf $THEME_FG -nb $THEME_BG -sf $THEME_BLUE -sb $THEME_SEL_DARK "$@"
 }
@@ -9,8 +13,6 @@ lspath () {
   local names; names=($^path/*$^@*(N:t))
   print -lr -- ${(ou)names}
 }
-
-hc() { "${herbstclient_command[@]:-herbstclient}" "$@" ;}
 
 setscreen () {
   "$HOME/.screenlayout/$@.sh"
@@ -36,11 +38,7 @@ rbt () {
 }
 
 scratch () {
-  vim -c ":set ft=$1" -c ':ScreenShellVertical' $(mktemp)
-}
-
-wake-htpc () {
-  ssh admin@koti.jreinert.com /opt/home/admin/scripts/wake-htpc
+  vim -c ":set ft=$1" $(mktemp)
 }
 
 udmount () {
@@ -104,20 +102,20 @@ be() {
 	shift
 	if $is_bundle; then
 		echo "Found Gemfile, starting with bundle exec"
-		bundle exec $cmd $@
+		bundle exec $cmd "$@"
 	else
-		command $cmd
+		command $cmd "$@"
 	fi
 }
 
 be_commands=(
 	rails cap rake rackup puma thin unicorn pry rspec guard rubocop yard shotgun
-	ruby-prof
+	ruby-prof hanami middleman
 )
 
 for cmd in "${be_commands[@]}"; do
 	$cmd() {
-		be $0 $@
+		be $0 "$@"
 	}
 done
 
@@ -132,10 +130,6 @@ tmux() {
 cdmk () {
 	mkdir -p $1
 	cd $1
-}
-
-chat () {
-	mosh -p 60000 -- server tmux a -t weechat
 }
 
 b16() {
@@ -161,7 +155,7 @@ p() {
 }
 
 zdf() {
-	mpv $(curl -s 'http://zdf1314-lh.akamaihd.net/i/de14_v1@392878/master.m3u8?dw=0' | grep index_3056 | head -1)
+	mpv $(curl -s 'http://zdf1314-lh.akamaihd.net/i/de14_v1@392878/master.m3u8?dw=0' | grep index_3096 | head -1)
 }
 
 djvuedit() {
@@ -205,4 +199,40 @@ tnew() {
 	tmux switch-client -t $1
 }
 
+ls() {
+	command ls --color=auto "$@"
+}
+
+grep() {
+	command grep --color=auto "$@"
+}
+
+asciirec() {
+	local tempfile=$(mktemp /tmp/asciirec.XXXXX.asciinema.json)
+	asciinema rec "$tempfile"
+	fb "$tempfile"
+	rm "$tempfile"
+}
+
 compdef _tmuxinator mux
+
+ipfs-paste() {
+	local gateway_url='https://ipfs.jokke.space'
+	local ipfs_path=$(ipfs add "$@" | tail -n1 | awk '{print $2}')
+	local url="$gateway_url/hl/#?path=$ipfs_path&lang="
+	echo "$url" | xclip -i
+	echo "$url"
+
+	if [[ "$@" =~ --pin($| |=true) ]]; then
+		ssh root@jokke.space sudo -u ipfs ipfs pin add "$ipfs_path"
+	fi
+}
+
+http-debug() {
+	local port=$@
+	local server_port=$((port + 1))
+	echo "require \"http/server\"; HTTP::Server.new($(server)) {}.listen" | crystal eval &
+	local server_pid=$!
+	mitmproxy -p 
+	kill $server_pid
+}

@@ -10,7 +10,7 @@ syntax enable
 set hidden
 
 set guioptions=""
-set guifont=yancfont
+set guifont=yanc\ yancfont
 set mouse=""
 
 set lazyredraw
@@ -21,7 +21,7 @@ set ts=4 sts=0 sw=4 noet
 au BufNewFile,BufRead *.tex setlocal ft=tex spell
 au BufNewFile,BufRead *.tixz setlocal ft=tex
 au BufNewFile,BufRead /dev/shm/pass.* setlocal noswapfile nobackup noundofile ft=yaml
-au BufNewFile,BufRead *.rake,*.rb.example setlocal ft=ruby
+au BufNewFile,BufRead *.rake,*.rb.example,*.cap setlocal ft=ruby
 au BufNewFile,BufRead *.scad setlocal ft=openscad
 au FileType markdown setlocal sw=4 ts=4 sts=4 et tw=80
 au FileType ruby,yaml,crystal setlocal sw=2 ts=2 sts=2 et
@@ -38,6 +38,7 @@ set diffopt+=vertical
 
 set colorcolumn=80
 set list listchars=tab:►\ ,trail:◆,eol:¬
+set pyxversion=3
 
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_classes_in_global = 1

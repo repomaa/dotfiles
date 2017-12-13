@@ -2,7 +2,7 @@
 if !1 | finish | endif
 
 set nocompatible
+source ~/.config/vim/functions.vim
 source ~/.config/vim/plugins.vim
 source ~/.config/vim/settings.vim
-source ~/.config/vim/functions.vim
 source ~/.config/vim/mappings.vim

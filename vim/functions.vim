@@ -108,7 +108,7 @@ fun! Gem(name, ...)
 		throw 'unknown gem "' . a:name . '"'
 	endif
 
-	let latest_minor_version = substitute(latest_version, '\(\d\+\.\d\+\)\@<=.*', '', '')
+	let latest_minor_version = substitute(latest_version, '\(\d\+\.\d\+\).*', '\1', '')
 
 	let suffix = ''
 	if expand('%') =~ '\.gemspec'
@@ -154,5 +154,19 @@ fun! Gitlink(start, end)
 endfun
 
 com! -range -nargs=0 Gitlink :call Gitlink(<line1>, <line2>)
+
+fun! BundleExec(command)
+	let l:directory = expand('%:p:h')
+	let l:is_bundle = 0
+	while (l:directory != '' && !l:is_bundle)
+		if (filereadable(l:directory . '/Gemfile'))
+			let l:is_bundle = 1
+		else
+			let l:directory = substitute(l:directory, '/[^/]\+$', '', '')
+		endif
+	endwhile
+
+	return l:is_bundle ? 'bundle exec ' . a:command : a:command
+endfun
 
 " vim: filetype=vim

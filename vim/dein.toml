@@ -1,43 +1,34 @@
 [[plugins]]
-repository = 'Shougo/neobundle.vim'
-fetch = 1
+repo = 'Shougo/dein.vim'
 
 [[plugins]]
-repository = 'Shougo/vimproc.vim'
-	[plugins.build]
-	linux = 'make'
+repo = 'Shougo/vimproc.vim'
+build = 'make'
 
 [[plugins]]
-repository = 'Shougo/unite.vim'
+repo = 'Shougo/unite.vim'
 lazy = 0
-	[plugins.on_cmd]
-	name = 'Unite'
-	complete = 'customlist,unite#complete_source'
+on_cmd = 'Unite'
 
 [[plugins]]
-repository = 'Shougo/neomru.vim'
-lazy = 1
+repo = 'Shougo/neomru.vim'
+lazy = 0
 on_source = 'unite.vim'
 
 [[plugins]]
-repository = 'Shougo/vimshell.vim'
+repo = 'Shougo/vimshell.vim'
 lazy = 1
 on_map = '<Plug>'
-	[plugins.on_cmd]
-	name = 'VimShell'
-	complete = 'customlist,vimshell#complete'
+on_cmd = 'VimShell'
 
 [[plugins]]
-repository = 'Shougo/vimfiler.vim'
-lazy = 0
+repo = 'Shougo/vimfiler.vim'
+lazy = 1
 on_map = '<Plug>'
-	[plugins.on_cmd]
-	name = 'VimFiler'
-	complete = 'customlist,vimfiler#complete'
-
+on_cmd = 'VimFiler'
 
 [[plugins]]
-repository = 'Shougo/neosnippet.vim'
+repo = 'Shougo/neosnippet.vim'
 lazy = 1
 on_i = 1
 on_cmd = [
@@ -48,25 +39,25 @@ on_cmd = [
 ]
 
 [[plugins]]
-repository = 'Shougo/neosnippet-snippets'
+repo = 'Shougo/neosnippet-snippets'
 lazy = 1
 on_source = 'neosnippet.vim'
 
 [[plugins]]
-repository = 'chriskempson/base16-vim'
+repo = 'chriskempson/base16-vim'
 
 [[plugins]]
-repository = 'cespare/vim-toml'
+repo = 'cespare/vim-toml'
 lazy = 1
 on_ft = 'toml'
 
 [[plugins]]
-repository = 'ledger/vim-ledger'
+repo = 'ledger/vim-ledger'
 lazy = 1
 on_ft = 'ledger'
 
 [[plugins]]
-repository = 'tpope/vim-fugitive'
+repo = 'tpope/vim-fugitive'
 lazy = 0
 augroup = 'fugitive'
 on_cmd = [
@@ -89,12 +80,13 @@ on_cmd = [
 ]
 
 [[plugins]]
-repository = 'godlygeek/tabular'
+repo = 'junegunn/vim-easy-align'
 lazy = 1
-on_cmd = 'Tabularize'
+on_cmd = ['EasyAlign', 'LiveEasyAlign']
+on_map = '<Plug>(EasyAlign)'
 
 [[plugins]]
-repository = 'majutsushi/tagbar'
+repo = 'majutsushi/tagbar'
 lazy = 1
 augroup = 'TagbarSession'
 on_cmd = [
@@ -105,18 +97,7 @@ on_cmd = [
 ]
 
 [[plugins]]
-repository = 'scrooloose/syntastic'
-lazy = 0
-augroup = 'syntastic'
-on_cmd = [
-	'write',
-	'SyntasticCheck',
-	'SyntasticInfo',
-	'SyntasticToogleMode'
-]
-
-[[plugins]]
-repository = 'Rip-Rip/clang_complete.git'
+repo = 'Rip-Rip/clang_complete.git'
 lazy = 1
 on_ft = [
 	'c',
@@ -124,46 +105,52 @@ on_ft = [
 ]
 
 [[plugins]]
-repository = 'scrooloose/nerdcommenter'
+repo = 'neomake/neomake'
+rev = 'tempfiles'
+lazy = 1
+on_cmd = 'Neomake'
+
+[[plugins]]
+repo = 'scrooloose/nerdcommenter'
 lazy = 1
 on_map = '<Plug>'
 
 [[plugins]]
-repository = 'ciaranm/securemodelines'
+repo = 'ciaranm/securemodelines'
 
 [[plugins]]
-repository = 'kchmck/vim-coffee-script'
+repo = 'kchmck/vim-coffee-script'
 lazy = 1
 on_path = '\.coffee$'
 
 [[plugins]]
-repository = 'lervag/vimtex'
+repo = 'lervag/vimtex'
 lazy = 1
 on_ft = 'tex'
 
 [[plugins]]
-repository = 'rhysd/vim-crystal'
+repo = 'rhysd/vim-crystal'
 lazy = 1
 on_path = '\.cr$'
 on_ft = 'crystal'
 
 [[plugins]]
-repository = 'mxw/vim-jsx'
+repo = 'mxw/vim-jsx'
 lazy = 1
 on_ft = 'javascript'
 
 [[plugins]]
-repository = 'tpope/vim-abolish'
+repo = 'tpope/vim-abolish'
 lazy = 1
 on_i = 1
 
 [[plugins]]
-repository = 'tpope/vim-bundler'
+repo = 'tpope/vim-bundler'
 lazy = 1
 on_ft = 'ruby'
 
 [[plugins]]
-repository = 'tpope/vim-rails'
+repo = 'tpope/vim-rails'
 lazy = 1
 on_ft = [
 	'ruby',
@@ -172,15 +159,15 @@ on_ft = [
 ]
 
 [[plugins]]
-repository = 'editorconfig/editorconfig-vim'
+repo = 'editorconfig/editorconfig-vim'
 
 [[plugins]]
-repository = 'aklt/vim-substitute'
+repo = 'aklt/vim-substitute'
 lazy = 1
 on_map = ';;'
 
 [[plugins]]
-repository = 'AndrewRadev/splitjoin.vim'
+repo = 'AndrewRadev/splitjoin.vim'
 lazy = 1
 on_map = [
 	'gS',
@@ -188,33 +175,45 @@ on_map = [
 ]
 
 [[plugins]]
-repository = 'Shougo/neocomplete.vim'
+repo = 'Shougo/deoplete.nvim'
 lazy = 1
 on_i = 1
+depends = [
+	'nvim-yarp'
+	'vim-hug-neovim-rpc'
+]
 
 [[plugins]]
-repository = 'jimf/javascriptcomplete'
+repo = 'roxma/nvim-yarp'
+lazy = 1
+
+[[plugins]]
+repo = 'roxma/vim-hug-neovim-rpc'
+lazy = 1
+
+[[plugins]]
+repo = 'jimf/javascriptcomplete'
 lazy = 1
 on_ft = 'javascript'
 
 [[plugins]]
-repository = 'kmnk/vim-unite-giti'
-lazy = 1
+repo = 'kmnk/vim-unite-giti'
+lazy = 0
 on_source = 'unite.vim'
 
 [[plugins]]
-repository = 'reedes/vim-lexical'
+repo = 'reedes/vim-lexical'
 lazy = 1
 augroup = 'lexical'
 on_ft = ['tex', 'markdown', 'text', 'mail', 'text']
 
 [[plugins]]
-repository = 'vim-scripts/LanguageTool'
+repo = 'vim-scripts/LanguageTool'
 lazy = 1
 on_cmd = 'LanguageToolCheck'
 
 [[plugins]]
-repository = 'tpope/vim-endwise'
+repo = 'tpope/vim-endwise'
 lazy = 1
 on_ft = [
 	'ruby',
@@ -223,41 +222,40 @@ on_ft = [
 ]
 
 [[plugins]]
-repository = 'chrisbra/NrrwRgn'
-lazy = 0
+repo = 'chrisbra/NrrwRgn'
+lazy = 1
+on_cmd = 'NR'
 
 [[plugins]]
-repository = 'vim-scripts/FastFold'
+repo = 'vim-scripts/FastFold'
 lazy = 1 
 on_i = 1
 
 [[plugins]]
-repository = 'kana/vim-operator-user'
+repo = 'kana/vim-operator-user'
 lazy = 1
 on_source = 'vim-operator-surround'
 
 [[plugins]]
-repository = 'rhysd/vim-operator-surround'
+repo = 'rhysd/vim-operator-surround'
 lazy = 1
 on_map = '<Plug>'
 
 [[plugins]]
-repository = 'jreinert/rbnew'
+repo = 'jreinert/rbnew'
 lazy = 1
-	[plugins.on_cmd]
-	name = 'Rbnew'
+on_cmd = 'Rbnew'
 
 [[plugins]]
-repository = 'romgrk/vimfiler-prompt'
+repo = 'romgrk/vimfiler-prompt'
 lazy = 1
-	[plugins.on_cmd]
-	name = 'VimFilerPrompt'
+on_cmd = 'VimFilerPrompt'
 
 [[plugins]]
-repository = 'kshenoy/vim-signature'
+repo = 'kshenoy/vim-signature'
 
 [[plugins]]
-repository = 'chiedo/vim-case-convert'
+repo = 'chiedo/vim-case-convert'
 lazy = 1
 on_cmd = [
 	'CamelToHyphen',
@@ -281,13 +279,23 @@ on_cmd = [
 ]
 
 [[plugins]]
-repository = 'vim-scripts/draw.vim'
+repo = 'vim-scripts/draw.vim'
 lazy = 1
 on_map = [
 	'<Leader>d'
 ]
 
 [[plugins]]
-repository = 'sirtaj/vim-openscad'
+repo = 'sirtaj/vim-openscad'
 lazy = 1
-on_ft = 'openscad'
+on_ft = 'scad'
+
+[[plugins]]
+repo = 'junegunn/vader.vim'
+lazy = 1
+on_cmd = ['Vader', 'Vader!']
+
+[[plugins]]
+repo = 'elzr/vim-json'
+lazy = 1
+on_ft = 'json'
