@@ -1,10 +1,16 @@
 . "$HOME/.config/zsh/env"
 . "$XDG_CONFIG_HOME/zsh/aliases"
 
+FZF_DEFAULT_OPTS='-e'
+FZF_ALT_C_COMMAND='bdsm -h -l 2> /dev/null'
+
+. /usr/share/fzf/key-bindings.zsh
+. /usr/share/fzf/completion.zsh
+
 # Lines configured by zsh-newuser-install
 HISTFILE="$XDG_CACHE_HOME/zsh/history"
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=100000
+SAVEHIST=100000
 setopt sharehistory autocd extendedglob nomatch notify histfindnodups
 unsetopt beep
 bindkey -v
@@ -22,13 +28,8 @@ bindkey '^r' history-incremental-pattern-search-backward
 bindkey '^k' history-beginning-search-backward
 bindkey '^j' history-beginning-search-forward
 bindkey '^p' push-input
+bindkey '^ ' fzf-cd-widget
 # }}
-
-# Color Scheme {{
-base16_variant=monokai
-BASE16_SHELL="$HOME/.config/base16-shell/base16-$base16_variant.dark.sh"
-[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
-## }}
 
 # Prompt {{
 autoload -Uz vcs_info
@@ -59,3 +60,18 @@ function ipfs-add-crypt() {
 	echo -n "$url\ncurl '$url' | gpg -d | tar x\nipfs cat /ipfs/$hash | gpg -d | tar x"
 	echo "$url" | xclip -i
 }
+
+guessed_weather_location=
+
+case $(readlink /etc/localtime) in
+*Berlin)    guessed_weather_location='frankfurt%20am%20main' ;;
+*Helsinki)  guessed_weather_location='helsinki' ;;
+*Hong_Kong) guessed_weather_location='hongkong' ;;
+esac
+
+WEATHER_LOCATION=${WEATHER_LOCATION:-$guessed_weather_location}
+timeout 1 curl "wttr.in/$WEATHER_LOCATION?0qM"
+echo
+task
+echo
+khal --color list --format "$(echo '{bold}{start-style} - {end-style}{reset}: {cyan}{title}{reset}\n{description}\n--------------------')" today sunday | sed 's/^\(.\{100\}\).\{3,\}/\1.../'
