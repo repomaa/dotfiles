@@ -106,9 +106,7 @@ on_ft = [
 
 [[plugins]]
 repo = 'neomake/neomake'
-rev = 'tempfiles'
-lazy = 1
-on_cmd = 'Neomake'
+rev = 'master'
 
 [[plugins]]
 repo = 'scrooloose/nerdcommenter'
@@ -140,9 +138,13 @@ lazy = 1
 on_ft = 'javascript'
 
 [[plugins]]
-repo = 'tpope/vim-abolish'
+repo = 'pangloss/vim-javascript'
 lazy = 1
-on_i = 1
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'tpope/vim-abolish'
+lazy = 0
 
 [[plugins]]
 repo = 'tpope/vim-bundler'
@@ -279,13 +281,6 @@ on_cmd = [
 ]
 
 [[plugins]]
-repo = 'vim-scripts/draw.vim'
-lazy = 1
-on_map = [
-	'<Leader>d'
-]
-
-[[plugins]]
 repo = 'sirtaj/vim-openscad'
 lazy = 1
 on_ft = 'scad'
@@ -299,3 +294,53 @@ on_cmd = ['Vader', 'Vader!']
 repo = 'elzr/vim-json'
 lazy = 1
 on_ft = 'json'
+
+[[plugins]]
+repo = 'puppetlabs/puppet-syntax-vim'
+lazy = 1
+on_ft = 'puppet'
+
+[[plugins]]
+repo = 'elorest/vim-slang'
+lazy = 1
+on_ft = 'slang'
+
+[[plugins]]
+repo = 'digitaltoad/vim-pug'
+lazy = 1
+on_ft = 'pug'
+
+[[plugins]]
+repo = 'https://gitlab.com/HiPhish/jinja.vim.git'
+lazy = 1
+on_ft = 'j2'
+
+[[plugins]]
+repo = 'leafgarland/typescript-vim'
+lazy = 1
+on_path = '\.(ts|vue)$'
+on_ft = ['typescript','vue']
+
+[[plugins]]
+repo = 'posva/vim-vue'
+lazy = 1
+on_path = '\.vue$'
+on_ft = 'vue'
+
+[[plugins]]
+repo = 'vim-scripts/DrawIt'
+lazy = 1
+on_map = [
+	'<Leader>di'
+]
+
+[[plugins]]
+repo = 'rhysd/devdocs.vim'
+lazy = 1
+on_cmd = ['DevDocs', 'DevDocsAll']
+on_map = { n = 'K' }
+
+[[plugins]]
+repo = 'jparise/vim-graphql'
+on_path = '\.g(raph)?qls?'
+on_ft = 'graphql'

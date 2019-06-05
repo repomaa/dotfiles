@@ -5,3 +5,7 @@ options     head
     ---
     user: ${2:username}
     window: ${3:`substitute(expand('%:t:r'), '.*-', '', '')`}${0}
+
+snippet     ansible_secret
+abbr        ansible secret
+    `system('apg -m 30 -n 1 -M SCNL | tr -d "\n" | ansible-vault encrypt_string --vault-id vault-password.py 2>/dev/null')`

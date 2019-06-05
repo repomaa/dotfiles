@@ -1,0 +1,5 @@
+snippet trans
+abbr new transaction
+	${1:`strftime('%Y/%m/%d')`} * ${2:Payee}
+		${3:CWI-ACC}:${4:Mitglied}  ${5:-}${6:0.00} €
+		${7:Aktiva:Umlaufvermögen:Bank}

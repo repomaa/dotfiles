@@ -80,7 +80,6 @@ if dein#tap('clang_complete')
 endif
 
 if dein#tap('neomake')
-	autocmd BufWritePost * Neomake
 	let g:neomake_error_sign = { 'text': '✗', 'texthl': 'NeomakeErrorSign' }
 	let g:neomake_warning_sign = { 'text': '!', 'texthl': 'NeomakeWarningSign' }
 	let g:neomake_message_sign_sign = { 'text': '>', 'texthl': 'NeomakeMessageSign' }
@@ -98,16 +97,21 @@ if dein#tap('neomake')
 
 	let g:neomake_rubocop_exe = { 'fn': function('s:bundled_rubocop_exe') }
 	let g:neomake_rubocop_args = { 'fn': function('s:bundled_rubocop_args') }
+	let g:neomake_eslint_exe = $PWD . '/node_modules/.bin/eslint'
+	let g:neomake_javascript_enabled_makers = ['eslint']
+	let g:neomake_tslint_exe = $PWD . '/node_modules/.bin/tslint'
+	let g:neomake_typescript_enabled_makers = ['tsc', 'tslint']
+
+	let g:neomake_ameba_exe = $PWD . '/bin/ameba'
+
+	call neomake#configure#automake('w')
 endif
 
 if dein#tap('base16-vim')
-	let scheme = substitute(substitute($BASE16_SHELL, '.*/', '', ''), '\.sh', '', '')
-	let g:base16theme = substitute(scheme, '\.\(dark\|light\)', '', '')
-	let variant = substitute(scheme, '.*\(dark\|light\)', '\1', '')
-
-	exe 'set bg=' . variant
-	let base16colorspace=256
-	exe 'colorscheme '.g:base16theme
+	if filereadable(expand("~/.vimrc_background"))
+		let base16colorspace=256
+		source ~/.vimrc_background
+	endif
 endif
 
 if dein#tap('tagbar')
@@ -134,7 +138,8 @@ if dein#tap('securemodelines')
 	\	'filetype', 'ft',
 	\	'foldmethod', 'fdm',
 	\	'readonly', 'ro', 'noreadonly', 'noro',
-	\	'rightleft', 'rl', 'norightleft', 'norl'
+	\	'rightleft', 'rl', 'norightleft', 'norl',
+	\   'spelllang'
 	\]
 endif
 
@@ -209,6 +214,13 @@ if dein#tap('vim-easy-align')
 
 	" Start interactive EasyAlign for a motion/text object (e.g. gaip)
 	nmap ga <Plug>(EasyAlign)
+endif
+
+if dein#tap('devdocs.vim')
+	let g:devdocs_filetype_map = {
+	\	'dockerfile': 'docker~17',
+	\}
+	nmap K <Plug>(devdocs-under-cursor)
 endif
 
 if dein#check_install()
