@@ -7,3 +7,4 @@ alias wget="wget --content-disposition"
 alias mux=tmuxinator
 alias grep="grep --color=auto"
 alias pj="json_pp | bat -l json"
+alias ls="ls --color=auto"
