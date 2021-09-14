@@ -1,0 +1,64 @@
+#!/usr/bin/zsh
+
+scratch () {
+  nvim -c ":set ft=$1" $(mktemp)
+}
+
+tsessions() {
+	tmux list-sessions -F '#{session_name} #{?session_attached,,not_attached}' | \
+		awk '/not_attached/{print $1}'
+}
+
+tkill() {
+	tsessions | fzf | xargs tmux kill-session -t
+}
+
+tswitch() {
+	tsessions | fzf | xargs tmux switch-client -t
+}
+
+tnew() {
+	tmux new -d -s "$@"
+	tmux switch-client -t $1
+}
+
+asciirec() {
+	local tempfile=$(mktemp /tmp/asciirec.XXXXX.asciinema.json)
+	asciinema rec "$tempfile"
+	fb "$tempfile"
+	rm "$tempfile"
+}
+
+fbs() {
+	local url=$1
+	local time=${2-5}
+
+	fb <<-HTML | rev | cut -c 2- | rev | xclip
+	<html>
+	<head>
+		<meta http-equiv="refresh" content="${time}; url=${url}" />
+	</head>
+	<body>
+		<h3>Redirect</h3>
+		<p>Redirecting you to <a href="${url}">${url}</a></p>
+	</body>
+	</html>
+	HTML
+
+	xclip -o
+}
+
+qrshow() {
+	local url=$1
+	[[ -z "$url" ]] && read url
+	qrencode -o - "$url" | feh -
+}
+
+envy() {
+	env $(cat .env | sed '/^\s*#/d') "$@"
+}
+
+add-hash() {
+	hash -d "$@=$PWD"
+	echo "hash -d '$@=$PWD'" >> "$ZDOTDIR/hashes"
+}

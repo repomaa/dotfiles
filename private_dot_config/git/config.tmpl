@@ -1,0 +1,49 @@
+[user]
+	email = {{ .git.email }}
+	name = {{ .git.name }}
+	signingkey = {{ .git.signingkey }}
+
+[push]
+	default = current
+	followTags = true
+
+[diff]
+	tool = nvim -d
+
+[alias]
+	st = status
+	ci = commit
+	br = branch
+	co = checkout
+	df = diff
+	dc = diff --cached
+	lg = !tig
+
+[github]
+[core]
+	excludesfile = gitignore
+[pull]
+	rebase = true
+	default = current
+[merge]
+	autostash = true
+[rebase]
+	autostash = true
+[commit]
+	gpgsign = true
+[tag]
+	gpgsign = true
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[lfs]
+	concurrenttransfers = 64
+	storage = /home/jokke/.cache/lfs
+[init]
+	defaultBranch = main
+[credential]
+	helper = cache
+[branch]
+	autosetupmerge = true

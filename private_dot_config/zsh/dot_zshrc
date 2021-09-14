@@ -1,0 +1,96 @@
+#!/bin/zsh
+
+# tmux {{{
+start-tmux() {
+	[[ $- != *i* ]] && return
+	which tmux 2>&1 > /dev/null || return
+
+	if [[ ! -z $NO_TMUX ]]; then
+		unset TMUX
+		return
+	fi
+
+	[[ -z "$TMUX" ]] && exec tmux
+}
+
+start-tmux
+# }}}
+
+# History {{{
+HISTFILE="$XDG_CACHE_HOME/zsh/history"
+HISTSIZE=100000
+SAVEHIST=100000
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt share_history
+setopt autopushd
+# }}}
+
+# Various options {{{
+setopt autocd extendedglob nomatch notify histfindnodups
+unsetopt beep
+setopt interactive_comments
+# }}}
+
+# Vim mode
+bindkey -v
+
+# Keybindings {{{
+bindkey '^?' backward-delete-char
+bindkey '^h' backward-delete-char
+bindkey '^w' backward-kill-word
+bindkey '^r' history-incremental-pattern-search-backward
+bindkey '^k' history-beginning-search-backward
+bindkey '^j' history-beginning-search-forward
+bindkey '^p' push-input
+bindkey '^ ' fzf-cd-widget
+# }}}
+
+# Prompt {{{
+autoload -Uz vcs_info
+precmd_functions+=( vcs_info )
+setopt prompt_subst
+PROMPT='%# %1~%(0?..%F{red})>%f '
+RPROMPT=\$vcs_info_msg_0_
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' formats '<%b> [%u%c]'
+# }}}
+
+# Safe rm {{{
+alias rm='rm -I '
+setopt rm_star_silent
+# }}}
+
+. "$ZDOTDIR/aliases"
+. "$ZDOTDIR/completion"
+. "$ZDOTDIR/functions"
+. "$ZDOTDIR/hashes"
+
+# GPG Agent {{{
+export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye >/dev/null
+# }}}
+
+# Base16 {{{
+export BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+	[ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+		eval "$("$BASE16_SHELL/profile_helper.sh")"
+# }}}
+
+
+# NVM {{{
+if [ -f /usr/share/nvm/init-nvm.sh ]; then
+	source /usr/share/nvm/init-nvm.sh
+fi
+# }}}
+
+# NIX {{{
+if [ -e ~/.nix-profile/etc/profile.d/nix.sh ];
+	then . ~/.nix-profile/etc/profile.d/nix.sh;
+fi
+# }}}
+
+which rbenv 2>&1 > /dev/null && eval "$(rbenv init -)"
+
+# vim: set foldmethod=marker

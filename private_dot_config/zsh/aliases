@@ -1,0 +1,9 @@
+#!/bin/zsh
+alias _=sudo
+alias gist="gist -c"
+alias chat="ssh root@ipv4.jokke.space pkill mosh; mosh weechat@ipv4.jokke.space"
+alias vim=nvim
+alias wget="wget --content-disposition"
+alias mux=tmuxinator
+alias grep="grep --color=auto"
+alias pj="json_pp | bat -l json"
