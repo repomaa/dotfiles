@@ -111,12 +111,21 @@ packer.startup(function(use)
 		end
 	}
 
+	use { 'L3MON4D3/LuaSnip',
+		config = function()
+			require('snippets').setup()
+		end
+	}
+
 	use {
 		'neovim/nvim-lspconfig',
 		requires = {
-			'williamboman/nvim-lsp-installer',
-			'hrsh7th/nvim-cmp',
-			'hrsh7th/cmp-nvim-lsp',
+			{'williamboman/nvim-lsp-installer'},
+			{'hrsh7th/nvim-cmp'},
+			{'hrsh7th/cmp-nvim-lsp'},
+			{'saadparwaiz1/cmp_luasnip',
+				requires = {'L3MON4D3/LuaSnip'},
+			},
 		},
 		config = function ()
 			require('lsp').setup()
@@ -131,6 +140,11 @@ packer.startup(function(use)
 	}
 
 	use { 'tpope/vim-abolish' }
+	use { 'akinsho/toggleterm.nvim',
+		config = function()
+			require('terminal').setup()
+		end
+	}
 end)
 
 return plugins

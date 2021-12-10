@@ -1,15 +1,28 @@
 local lsp = {}
 local vimp = require('vimp')
 local lsp_installer = require('nvim-lsp-installer')
+local luasnip = require('luasnip')
 
-local mappingsDone = false
+local dump
 
-local on_attach = function ()
-	if mappingsDone then
-		return
+dump = function (o)
+   if type(o) == 'table' then
+      local s = '{ '
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+         s = s .. '['..k..'] = ' .. dump(v) .. ','
+      end
+      return s .. '} '
+   else
+      return tostring(o)
+   end
+end
+
+local on_attach = function (client, bufnr)
+	for k, _ in pairs(client.server_capabilities) do
+		print(k .. ', ')
 	end
 
-	local function buf_set_keymap(mapping, func) vimp.nnoremap({'buffer', 'silent'}, mapping, func) end
 	local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
 	-- Enable completion triggered by <c-x><c-o>
@@ -17,24 +30,27 @@ local on_attach = function ()
 
 	-- Mappings.
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	buf_set_keymap('gD', vim.lsp.buf.declaration)
-	buf_set_keymap('gd', vim.lsp.buf.definition)
-	buf_set_keymap('K', vim.lsp.buf.hover)
-	buf_set_keymap('gi', vim.lsp.buf.implementation)
-	buf_set_keymap('<space>wa', vim.lsp.buf.add_workspace_folder)
-	buf_set_keymap('<space>wr', vim.lsp.buf.remove_workspace_folder)
-	buf_set_keymap('<space>wl', function () print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
-	buf_set_keymap('<space>D', vim.lsp.buf.type_definition)
-	buf_set_keymap('<space>rn', vim.lsp.buf.rename)
-	buf_set_keymap('<space>ca', vim.lsp.buf.code_action)
-	buf_set_keymap('gr', vim.lsp.buf.references)
-	buf_set_keymap('<space>e', vim.lsp.diagnostic.show_line_diagnostics)
-	buf_set_keymap('[d', vim.lsp.diagnostic.goto_prev)
-	buf_set_keymap(']d', vim.lsp.diagnostic.goto_next)
-	buf_set_keymap('<space>q', vim.lsp.diagnostic.set_loclist)
-	buf_set_keymap('<space>f', vim.lsp.buf.formatting)
-
-	mappingsDone = true
+	vimp.add_buffer_maps(bufnr, function ()
+		local function map(mapping, func) vimp.nnoremap({'silent', 'override'}, mapping, func) end
+		map('gD', vim.lsp.buf.declaration)
+		map('gd', vim.lsp.buf.definition)
+		if client.server_capabilities.hoverProvider then
+			map('K', vim.lsp.buf.hover)
+		end
+		map('gi', vim.lsp.buf.implementation)
+		map('<space>wa', vim.lsp.buf.add_workspace_folder)
+		map('<space>wr', vim.lsp.buf.remove_workspace_folder)
+		map('<space>wl', function () print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
+		map('<space>D', vim.lsp.buf.type_definition)
+		map('<space>rn', vim.lsp.buf.rename)
+		map('<space>ca', vim.lsp.buf.code_action)
+		map('gr', vim.lsp.buf.references)
+		map('<space>e', vim.lsp.diagnostic.show_line_diagnostics)
+		map('[d', vim.lsp.diagnostic.goto_prev)
+		map(']d', vim.lsp.diagnostic.goto_next)
+		map('<space>q', vim.lsp.diagnostic.set_loclist)
+		map('<space>f', vim.lsp.buf.formatting)
+	end)
 end
 
 lsp.setup = function ()
@@ -76,6 +92,11 @@ lsp.setup = function ()
 	local cmp = require('cmp')
 
 	cmp.setup {
+		snippet = {
+			expand = function(args)
+				luasnip.lsp_expand(args.body)
+			end
+		},
 		mapping = {
 			['<C-p>'] = cmp.mapping.select_prev_item(),
 			['<C-n>'] = cmp.mapping.select_next_item(),
@@ -104,6 +125,7 @@ lsp.setup = function ()
 		},
 		sources = {
 			{ name = 'nvim_lsp' },
+			{ name = 'luasnip' },
 		},
 	}
 end
